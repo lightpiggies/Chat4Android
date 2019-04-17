@@ -20,9 +20,14 @@ public class RequestBodyBuilder {
     return new RequestBodyBuilder();
   }
 
-  public RequestBodyBuilder setData(String key, Object data) {
-    mKeys.add(key);
-    mValues.add(data);
+  public RequestBodyBuilder setData(ApiRequestKey requestKey, Object... data) {
+    if (data.length != requestKey.getKeyCount()) {
+      throw new IllegalArgumentException("wrong request data");
+    }
+    for (int i = 0; i < requestKey.getKeyCount(); i++) {
+      mKeys.add(requestKey.getKeys().get(i));
+      mValues.add(data[i]);
+    }
     return this;
   }
 
